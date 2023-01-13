@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 开启gazebo环境,mavros,PX4,SITL,生成无人机-->
+    <!-- 飞机模型和世界 -->
+    <arg name="est" default="ekf2"/>
+    <arg name="world" default="$(find robocup_nav)/worlds/empty.world"/>
+    <!-- gazebo参数 -->
+    <arg name="gui" default="true"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="false"/>
+    <arg name="paused" default="false"/>
+    <!--开启gazebo-->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="gui" value="$(arg gui)"/>
+        <arg name="world_name" value="$(arg world)"/>
+        <arg name="debug" value="$(arg debug)"/>
+        <arg name="verbose" value="$(arg verbose)"/>
+        <arg name="paused" value="$(arg paused)"/>
+    </include>
+    <!-- iris_0 -->
+    <!--<group ns="iris_0">-->
+        <!-- mavros和飞机参数配置-->
+        <arg name="ID" value="0"/>
+        <arg name="ID_in_group" value="0"/>
+        <arg name="fcu_url" default="udp://:24540@localhost:34580"/>
+        <!-- 开启PX4飞控,SITL通讯,spawn飞机模型 -->
+        <include file="$(find px4)/launch/single_vehicle_spawn_xtd.launch">
+            <arg name="x" value="0"/>
+            <arg name="y" value="0"/>
+            <arg name="z" value="0"/>
+            <arg name="R" value="0"/>
+            <arg name="P" value="0"/>
+            <arg name="Y" value="0"/>
+            <arg name="vehicle" value="iris"/>
+            <arg name="sdf" value="iris_2d_lidar"/>
+            <arg name="mavlink_udp_port" value="18570"/>
+            <arg name="mavlink_tcp_port" value="4560"/>
+            <arg name="ID" value="$(arg ID)"/>
+            <arg name="ID_in_group" value="$(arg ID_in_group)"/>
+        </include>
+        <!--开启mavros-->
+        <include file="$(find mavros)/launch/px4.launch">
+            <arg name="fcu_url" value="$(arg fcu_url)"/>
+            <arg name="gcs_url" value=""/>
+            <arg name="tgt_system" value="$(eval 1 + arg('ID'))"/>
+            <arg name="tgt_component" value="1"/>
+        </include>
+    <param name="/mavros/local_position/tf/send" value="true"/>
+    <param name="/mavros/local_position/tf/frame_id" value="map"/>
+    <param name="/mavros/local_position/tf/child_frame_id" value="base_link"/>
+    <!--</group>-->
+    
+    <!--静态发布map->odom的000tf-->
+    <node pkg="tf" type="static_transform_publisher" name="odom_to_map_broadcaster" args="0 0 0 0 0 0 map odom 100" />
+    <!--静态发布基座->雷达的000tf-->
+    <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster" args="0 0 0 0 0 0 base_link iris_0/laser_2d 100" />
+</launch>
