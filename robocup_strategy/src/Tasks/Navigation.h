@@ -17,6 +17,7 @@ protected:
     //TODO 把计算距离函数移到杂项文件夹中
     double calculate_distance(geometry_msgs::PoseStamped point1,geometry_msgs::PoseStamped point2);
     geometry_msgs::TwistStamped speed_to_pub;
+    double normal_attitude;
 };
 
 

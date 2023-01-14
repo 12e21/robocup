@@ -27,13 +27,13 @@ int main(int argc,char **argv)
 /*************NAVIGATION*************/
         if(Drone_state::get_instance()->task_id==NAVIGATION)
         {
-            //测试用导航点
-            geometry_msgs::PoseStamped test_nav_target;
-            test_nav_target.header.frame_id="map";
-            test_nav_target.pose.position.x=4;
-            test_nav_target.pose.orientation.w=1;
+            //测试用导航点1
+            geometry_msgs::PoseStamped test_nav_target1;
+            test_nav_target1.header.frame_id="map";
+            test_nav_target1.pose.position.x=4;
+            test_nav_target1.pose.orientation.w=1;
             //设置导航点
-            p_task_navigation.set_move_base_goal(test_nav_target);
+            p_task_navigation.set_move_base_goal(test_nav_target1);
             p_task_navigation.run();
             if(p_task_navigation.get_task_state()==TASK_FINISH)
             {
