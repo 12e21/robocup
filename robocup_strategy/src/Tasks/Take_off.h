@@ -1,7 +1,7 @@
 
 #ifndef ROBOCUP_STRATEGY_TAKE_OFF_H
 #define ROBOCUP_STRATEGY_TAKE_OFF_H
-#include "../Interface/Simple_drone_state.h"
+#include "../Interface/Drone_state.h"
 #include "Task_base.h"
 
 class Take_off: public Task_base{

@@ -157,7 +157,7 @@ include_directories(
 
 ##################################################################
 list(APPEND SOURCE_LIST src/general_strategy.cpp
-        src/Interface/Simple_drone_state.cpp
+        src/Interface/Drone_state.cpp
         src/Tasks/Task_base.cpp
         src/Tasks/Take_off.cpp
         )

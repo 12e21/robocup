@@ -1,7 +1,7 @@
 
 #ifndef ROBOCUP_STRATEGY_TAKE_OFF_H
 #define ROBOCUP_STRATEGY_TAKE_OFF_H
-#include "../Interface/Simple_drone_state.h"
+#include "../Interface/Drone_state.h"
 #include "Task_base.h"
 
 class Take_off: public Task_base{
@@ -18,7 +18,7 @@ protected:
     mavros_msgs::SetMode offb_set_mode;
     mavros_msgs::CommandBool arm_cmd;
     double normal_attitude;
-    ros::Time last_request=ros::Time::now();
+    //ros::Time last_request=ros::Time::now();
 
 };
 
