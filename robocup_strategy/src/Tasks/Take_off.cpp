@@ -50,6 +50,11 @@ void Take_off::run() {
     }
     //把速度传回接口
     Drone_state::get_instance()->set_drone_speed(speed_to_pub);
+    //检测是否起飞到一定高度
+    if(Drone_state::get_instance()->get_local_pose().pose.position.z>normal_attitude)
+    {
+        task_state=TASK_FINISH;
+    }
 }
 
 //属性

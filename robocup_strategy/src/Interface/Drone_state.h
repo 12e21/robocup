@@ -10,12 +10,17 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/TwistStamped.h>
-
+enum Task_ID
+{
+    TAKEOFF,
+    NAVIGATION
+};
     class Drone_state {
     public:
         ros::NodeHandle nh;
         ros::Rate loop_rate;
         static Drone_state* get_instance();
+        Task_ID task_id;
 
         //属性
         //get
@@ -61,6 +66,7 @@
         geometry_msgs::TwistStamped drone_pub_vel;
         geometry_msgs::Twist move_base_vel;
         geometry_msgs::PoseStamped move_base_simple_goal;
+
 
     };
 

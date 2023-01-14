@@ -14,10 +14,17 @@ Drone_state* Drone_state::get_instance() {
 Drone_state::Drone_state()
      :nh("~"), loop_rate(20)
 {
+    //注册订阅和服务
     Drone_state::register_sub_and_pub();
+    //速度初始化
     drone_pub_vel.twist.linear.x=0;
     drone_pub_vel.twist.linear.y=0;
     drone_pub_vel.twist.linear.z=0;
+    //move_base目标初始化(防止报错)
+    move_base_simple_goal.header.frame_id="map";
+    move_base_simple_goal.pose.orientation.w=1;
+    //任务ID
+    task_id=TAKEOFF;
 }
 Drone_state::~Drone_state()=default;
 
