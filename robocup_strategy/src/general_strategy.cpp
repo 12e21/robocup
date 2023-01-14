@@ -32,7 +32,6 @@ int main(int argc,char **argv)
             test_nav_target.header.frame_id="map";
             test_nav_target.pose.position.x=4;
             test_nav_target.pose.orientation.w=1;
-
             //设置导航点
             p_task_navigation.set_move_base_goal(test_nav_target);
             p_task_navigation.run();

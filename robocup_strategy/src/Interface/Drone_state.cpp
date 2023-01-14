@@ -12,7 +12,7 @@ Drone_state* Drone_state::get_instance() {
 
 //构造&析构函数
 Drone_state::Drone_state()
-     :nh("~"), loop_rate(20)
+     :nh("~"), loop_rate(10)
 {
     //注册订阅和服务
     Drone_state::register_sub_and_pub();
@@ -35,7 +35,7 @@ void Drone_state::register_sub_and_pub() {
                                                                  10,&Drone_state::local_pos_cb,this);
     this->px4_state_sub=nh.subscribe<mavros_msgs::State>("/mavros/state",
                                                          10,&Drone_state::px4_state_cb, this);
-    this->move_base_vel_sub=nh.subscribe<geometry_msgs::Twist>("move_base/cmd_vel",
+    this->move_base_vel_sub=nh.subscribe<geometry_msgs::Twist>("/move_base/cmd_vel",
                                                                10,&Drone_state::move_base_vel_cb, this);
     //注册发布者
     this->drone_cmd_vel_pub=nh.advertise<geometry_msgs::TwistStamped>("/mavros/setpoint_velocity/cmd_vel",10);
