@@ -1,5 +1,4 @@
 
-
 #include "Simple_drone_state.h"
 
 #include "Drone_state.h"
@@ -35,6 +34,7 @@ void Drone_state::register_sub_and_pub() {
                                                                10,&Drone_state::move_base_vel_cb, this);
     //注册发布者
     this->drone_cmd_vel_pub=nh.advertise<geometry_msgs::TwistStamped>("/mavros/setpoint_velocity/cmd_vel",10);
+    this->move_base_simple_goal_pub=nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal",10);
     //注册客户端
     this->set_mode_client=nh.serviceClient<mavros_msgs::SetMode>("/mavros/set_mode");
     this->arming_client=nh.serviceClient<mavros_msgs::CommandBool>("/mavros/cmd/arming");
@@ -73,7 +73,9 @@ geometry_msgs::Twist Drone_state::get_move_base_vel() {
 void Drone_state::set_drone_speed(geometry_msgs::TwistStamped speed_to_pub) {
     this->drone_pub_vel=speed_to_pub;
 }
-
+void Drone_state::set_move_base_simple_goal(geometry_msgs::PoseStamped goal_to_pub) {
+    this->move_base_simple_goal=goal_to_pub;
+}
 //更新
 void Drone_state::update() {
     ros::spinOnce();
@@ -82,7 +84,11 @@ void Drone_state::update() {
 //发布速度
 void Drone_state::pub_to_ros() {
     //发布并显示速度
-    ROS_INFO("pub_speed:(%.2lf,%.2lf,%.2lf)",drone_pub_vel.twist.linear.x,
-             drone_pub_vel.twist.linear.y,drone_pub_vel.twist.linear.z);
-    drone_cmd_vel_pub.publish(drone_pub_vel);
+    /*ROS_INFO("pub_speed:(%.2lf,%.2lf,%.2lf)",drone_pub_vel.twist.linear.x,
+             drone_pub_vel.twist.linear.y,drone_pub_vel.twist.linear.z);*/
+    drone_cmd_vel_pub.publish(this->drone_pub_vel);
+    //发布并显示move_base的目标
+    ROS_INFO("pub_goal:(%.2lf,%.2lf,%.2lf)",this->move_base_simple_goal.pose.position.x,
+             this->move_base_simple_goal.pose.position.y,this->move_base_simple_goal.pose.position.z);
+    move_base_simple_goal_pub.publish(this->move_base_simple_goal);
 }
