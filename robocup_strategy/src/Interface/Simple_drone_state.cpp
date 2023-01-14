@@ -31,6 +31,8 @@ void Drone_state::register_sub_and_pub() {
                                                                  10,&Drone_state::local_pos_cb,this);
     this->px4_state_sub=nh.subscribe<mavros_msgs::State>("/mavros/state",
                                                          10,&Drone_state::px4_state_cb, this);
+    this->move_base_vel_sub=nh.subscribe<geometry_msgs::Twist>("move_base/cmd_vel",
+                                                               10,&Drone_state::move_base_vel_cb, this);
     //注册发布者
     this->drone_cmd_vel_pub=nh.advertise<geometry_msgs::TwistStamped>("/mavros/setpoint_velocity/cmd_vel",10);
     //注册客户端
@@ -46,6 +48,9 @@ void Drone_state::local_pos_cb(const geometry_msgs::PoseStamped::ConstPtr &msg) 
 void Drone_state::px4_state_cb(const mavros_msgs::State::ConstPtr &msg) {
     this->drone_state=*msg;
 }
+void Drone_state::move_base_vel_cb(const geometry_msgs::Twist::ConstPtr &msg) {
+    this->move_base_vel=*msg;
+}
 
 //属性
 //get
@@ -60,6 +65,9 @@ ros::ServiceClient Drone_state::get_set_mode_client() {
 }
 geometry_msgs::PoseStamped Drone_state::get_local_pose() {
     return this->drone_local_pos;
+}
+geometry_msgs::Twist Drone_state::get_move_base_vel() {
+    return this->move_base_vel;
 }
 //set
 void Drone_state::set_drone_speed(geometry_msgs::TwistStamped speed_to_pub) {
