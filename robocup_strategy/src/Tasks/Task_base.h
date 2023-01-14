@@ -13,7 +13,7 @@ public:
     Task_base();
     ~Task_base();
     Task_state get_task_state();
-    virtual void task_run();
+    virtual void run();
 protected:
     Task_state task_state;
 };

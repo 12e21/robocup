@@ -9,4 +9,4 @@ Task_state Task_base::get_task_state() {
     return this->task_state;
 }
 
-void Task_base::task_run() {}
+void Task_base::run() {}

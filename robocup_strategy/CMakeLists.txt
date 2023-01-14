@@ -160,6 +160,7 @@ list(APPEND SOURCE_LIST src/general_strategy.cpp
         src/Interface/Drone_state.cpp
         src/Tasks/Task_base.cpp
         src/Tasks/Take_off.cpp
+        src/Tasks/Navigation.cpp
         )
 add_executable(general_strategy ${SOURCE_LIST})
 target_link_libraries(general_strategy ${catkin_LIBRARIES})
