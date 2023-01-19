@@ -1,10 +1,6 @@
 
 #include "Navigation.h"
-//TODO 计算两点间二维距离函数，需移入杂项文件
-double Navigation::calculate_distance(geometry_msgs::PoseStamped point1, geometry_msgs::PoseStamped point2) {
-    double distance= sqrt(pow((point1.pose.position.x-point2.pose.position.x),2)+pow((point1.pose.position.y-point2.pose.position.y),2));
-    return distance;
-}
+
 //构造&析构函数
 Navigation::Navigation() {
     task_state=TASK_START;
@@ -42,7 +38,7 @@ void Navigation::run() {
     Drone_state::get_instance()->set_drone_speed(speed_to_pub);
 
     //检测是否到达位置
-    double distance= calculate_distance(this->mov_base_goal,
+    double distance= Utils::calculate_distance(this->mov_base_goal,
                                         Drone_state::get_instance()->get_local_pose());
     if(distance<0.15)
     {
