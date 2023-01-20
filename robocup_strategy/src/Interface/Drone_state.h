@@ -10,6 +10,8 @@
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/TwistStamped.h>
+//视觉消息
+#include "uav_robotcup/vision_information.h"
 enum Task_ID
 {
     TAKEOFF,
@@ -29,6 +31,7 @@ enum Task_ID
         ros::ServiceClient get_arming_client();
         ros::ServiceClient get_set_mode_client();
         geometry_msgs::Twist get_move_base_vel();
+        uav_robotcup::vision_information get_vision_info();
         //set
         void set_drone_speed(geometry_msgs::TwistStamped speed_to_pub);
         void set_move_base_simple_goal(geometry_msgs::PoseStamped goal_to_pub);
@@ -48,6 +51,7 @@ enum Task_ID
         ros::Subscriber local_pos_sub;
         ros::Subscriber px4_state_sub;
         ros::Subscriber move_base_vel_sub;
+        ros::Subscriber vision_info_sub;
         ros::Publisher  drone_cmd_vel_pub;
         ros::Publisher  move_base_simple_goal_pub;
         ros::ServiceClient set_mode_client;
@@ -58,6 +62,7 @@ enum Task_ID
         void local_pos_cb(const geometry_msgs::PoseStamped::ConstPtr &msg);
         void px4_state_cb(const mavros_msgs::State::ConstPtr &msg);
         void move_base_vel_cb(const geometry_msgs::Twist::ConstPtr &msg);
+        void vision_info_cb(const uav_robotcup::vision_information::ConstPtr &msg);
         void register_sub_and_pub();
 
         //飞机状态
@@ -66,7 +71,7 @@ enum Task_ID
         geometry_msgs::TwistStamped drone_pub_vel;
         geometry_msgs::Twist move_base_vel;
         geometry_msgs::PoseStamped move_base_simple_goal;
-
+        uav_robotcup::vision_information  vision_information;
 
     };
 

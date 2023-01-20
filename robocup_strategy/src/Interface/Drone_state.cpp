@@ -37,6 +37,8 @@ void Drone_state::register_sub_and_pub() {
                                                          10,&Drone_state::px4_state_cb, this);
     this->move_base_vel_sub=nh.subscribe<geometry_msgs::Twist>("/move_base/cmd_vel",
                                                                10,&Drone_state::move_base_vel_cb, this);
+    this->vision_info_sub=nh.subscribe<uav_robotcup::vision_information>("/robo_air/vision_information",
+                                                                         10,&Drone_state::vision_info_cb, this);
     //注册发布者
     this->drone_cmd_vel_pub=nh.advertise<geometry_msgs::TwistStamped>("/mavros/setpoint_velocity/cmd_vel",10);
     this->move_base_simple_goal_pub=nh.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal",10);
@@ -57,6 +59,10 @@ void Drone_state::move_base_vel_cb(const geometry_msgs::Twist::ConstPtr &msg) {
     this->move_base_vel=*msg;
 }
 
+void Drone_state::vision_info_cb(const uav_robotcup::vision_information::ConstPtr &msg) {
+    this->vision_information=*msg;
+}
+
 //属性
 //get
 mavros_msgs::State Drone_state::get_state() {
@@ -73,6 +79,10 @@ geometry_msgs::PoseStamped Drone_state::get_local_pose() {
 }
 geometry_msgs::Twist Drone_state::get_move_base_vel() {
     return this->move_base_vel;
+}
+
+uav_robotcup::vision_information Drone_state::get_vision_info() {
+    return this->vision_information;
 }
 //set
 void Drone_state::set_drone_speed(geometry_msgs::TwistStamped speed_to_pub) {
@@ -97,3 +107,4 @@ void Drone_state::pub_to_ros() {
              this->move_base_simple_goal.pose.position.y,this->move_base_simple_goal.pose.position.z);
     move_base_simple_goal_pub.publish(this->move_base_simple_goal);
 }
+
