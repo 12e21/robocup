@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <include file="$(find robocup_nav)/launch/iris.launch"></include>
+    <include file="$(find robocup_nav)/launch/nav_pro.launch"></include>
+</launch>
