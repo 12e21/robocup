@@ -2,6 +2,7 @@
 #include "Tasks/Take_off.h"
 #include "Tasks/Navigation.h"
 #include "Tasks/Task_hover.h"
+#include "Tasks/Task_land.h"
 int main(int argc,char **argv)
 {
     //初始化
@@ -9,6 +10,7 @@ int main(int argc,char **argv)
     Take_off p_task_off;
     Navigation p_task_navigation;
     Task_hover p_task_hover;
+    Task_land p_task_land;
 
     //测试用导航点1
     geometry_msgs::PoseStamped test_nav_target1;
@@ -52,8 +54,14 @@ int main(int argc,char **argv)
             if(p_task_hover.get_task_state()==TASK_FINISH)
             {
                 ROS_INFO("see target!");
-                return 0;
+                Drone_state::get_instance()->task_id=LAND;
             }
+        }
+/**************LAND***************/
+        if(Drone_state::get_instance()->task_id==LAND)
+        {
+            p_task_land.run();
+            ROS_INFO("auto land...");
         }
 
 

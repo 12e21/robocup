@@ -164,6 +164,7 @@ list(APPEND SOURCE_LIST src/general_strategy.cpp
         src/Tasks/Navigation.cpp
         src/Utils/Utils.cpp
         src/Tasks/Task_hover.cpp
+        src/Tasks/Task_land.cpp
         )
 add_executable(general_strategy ${SOURCE_LIST})
 target_link_libraries(general_strategy ${catkin_LIBRARIES})
