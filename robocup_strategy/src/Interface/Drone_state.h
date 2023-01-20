@@ -15,7 +15,8 @@
 enum Task_ID
 {
     TAKEOFF,
-    NAVIGATION
+    NAVIGATION,
+    HOVER
 };
     class Drone_state {
     public:

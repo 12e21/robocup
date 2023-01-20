@@ -11,6 +11,7 @@ class Navigation: public Task_base{
 public:
     Navigation();
     ~Navigation();
+    //更改move_base的目标并重设任务状态为开始
     void set_move_base_goal(geometry_msgs::PoseStamped move_base_goal_to_set);
     void run();
 protected:
