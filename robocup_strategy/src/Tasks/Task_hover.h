@@ -10,6 +10,7 @@ public:
     ~Task_hover();
     //设置盘旋点并重设任务状态为开始
     void set_hover_point(geometry_msgs::PoseStamped hover_point_to_set);
+    int get_current_target_index();
     //生成盘旋速度
     void hover_at_point();
     //是否检测到目标
@@ -20,6 +21,7 @@ protected:
     geometry_msgs::PoseStamped hover_point;
     double hover_attitude;
     double xy_threshold;
+    int current_target_index;
 };
 
 
