@@ -2,6 +2,7 @@
 #define ROBOCUP_STRATEGY_TASK_HOVER_H
 #include "Task_base.h"
 #include "../Interface/Drone_state.h"
+#include "../src/Utils/Pid_controler.h"
 
 class Task_hover: public Task_base{
 public:
@@ -22,6 +23,9 @@ protected:
     double hover_attitude;
     double xy_threshold;
     int current_target_index;
+    Pid_controler x_pid_controler;
+    Pid_controler y_pid_controler;
+    Pid_controler z_pid_controler;
 };
 
 

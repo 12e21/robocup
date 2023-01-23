@@ -24,38 +24,15 @@ void Task_hover::hover_at_point() {
     this->speed_to_pub.twist.angular.y=0;
     this->speed_to_pub.twist.angular.z=0;
     //垂直方向速度控制
-    if(drone_local_pose.pose.position.z<this->hover_attitude-0.05)
-    {
-        this->speed_to_pub.twist.linear.z=0.5;
-    } else if(drone_local_pose.pose.position.z>hover_attitude+0.05)
-    {
-        this->speed_to_pub.twist.linear.z=-0.2;
-    } else
-    {
-        this->speed_to_pub.twist.linear.z=0;
-    }
+    double z_diff=this->hover_attitude-drone_local_pose.pose.position.z;
+    speed_to_pub.twist.linear.z= this->z_pid_controler.diff_to_output(z_diff);
     //水平x轴方向速度控制
-    if(drone_local_pose.pose.position.x<(this->hover_point.pose.position.x-this->xy_threshold))
-    {
-        this->speed_to_pub.twist.linear.x=0.2;
-    } else if(drone_local_pose.pose.position.x>(this->hover_point.pose.position.x+this->xy_threshold))
-    {
-        this->speed_to_pub.twist.linear.x=-0.2;
-    } else
-    {
-        this->speed_to_pub.twist.linear.x=0;
-    }
+    double x_diff=this->hover_point.pose.position.x-drone_local_pose.pose.position.x;
+    speed_to_pub.twist.linear.x= this->x_pid_controler.diff_to_output(x_diff);
     //水平y轴方向速度控制
-    if(drone_local_pose.pose.position.y<(this->hover_point.pose.position.y-this->xy_threshold))
-    {
-        this->speed_to_pub.twist.linear.y=0.2;
-    } else if(drone_local_pose.pose.position.y>(this->hover_point.pose.position.y+this->xy_threshold))
-    {
-        this->speed_to_pub.twist.linear.y=-0.2;
-    } else
-    {
-        this->speed_to_pub.twist.linear.y=0;
-    }
+    double y_diff=this->hover_point.pose.position.y-drone_local_pose.pose.position.y;
+    speed_to_pub.twist.linear.y= this->y_pid_controler.diff_to_output(y_diff);
+
     Drone_state::get_instance()->set_drone_speed(this->speed_to_pub);
 }
 bool Task_hover::check_if_see_target() {
